@@ -7,6 +7,7 @@ public class Turret : MonoBehaviour
 {
     [SerializeField] private float fireRate;
     [SerializeField] private Projectile projectilePrefab;
+    [SerializeField] private Transform projectileSpawnPoint;
 
     private Coroutine _shootingCoroutine;
     private float _timeToNextShot;
@@ -27,7 +28,12 @@ public class Turret : MonoBehaviour
 
     public void OnAim(InputAction.CallbackContext callbackContext) => _aimPoint = callbackContext.ReadValue<Vector2>();
 
-    private void PerformShot() => Instantiate(projectilePrefab).Direction = transform.forward;
+    private void PerformShot()
+    {
+        Projectile projectile = Instantiate(projectilePrefab);
+        projectile.transform.position = projectileSpawnPoint.position;
+        projectile.Direction = transform.forward;
+    }
 
     private void Update()
     {

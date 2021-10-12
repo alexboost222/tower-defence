@@ -5,6 +5,7 @@ using UnityEngine;
 public class Projectile : MonoBehaviour
 {
     [SerializeField] private float speed;
+    [SerializeField] private float damage;
 
     private Collider _collider;
     
@@ -18,5 +19,9 @@ public class Projectile : MonoBehaviour
         transform.Translate(speed * Time.deltaTime * Direction);
     }
 
-    private void OnTriggerEnter(Collider other) => Destroy(gameObject);
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.TryGetComponent(out Enemy enemy)) enemy.TakeDamage(damage);
+        Destroy(gameObject);
+    }
 }

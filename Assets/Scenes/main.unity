@@ -398,7 +398,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyPrefab: {fileID: 2783802192628112221, guid: 151803870ba4f7c48955578c2483adba, type: 3}
-  spawnRate: 0.1
+  spawnRate: 0.5
   target: {fileID: 955264509}
 --- !u!1 &753827619
 GameObject:
@@ -883,7 +883,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3b2a13fef044e38bd9d0077336c01c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fireRate: 1
+  fireRate: 3
   projectilePrefab: {fileID: 3474066854926394823, guid: f093a074b7b6efb488886f37e0a534cc, type: 3}
   projectileSpawnPoint: {fileID: 2009380941}
 --- !u!1 &2009380940

@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bc21fa3cecb439e82fdb3857f4247e3, type: 3}
   m_Name: GunsConfig
   m_EditorClassIdentifier: 
-  machineGunFireDelay: 60
+  machineGunFireDelay: 0.8
   machineGunFireRange: 50

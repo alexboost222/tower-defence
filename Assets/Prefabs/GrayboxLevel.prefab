@@ -65,6 +65,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bulletComposeTemplate: {fileID: 8352673285534596575, guid: 914fc38f338ce574b88d21ec6629fbe1, type: 3}
   machineGunComposeTemplate: {fileID: 324315713025545625, guid: e5dde01bbda00ba46aca6a206732d18f, type: 3}
+  dummyTargetComposeTemplate: {fileID: 9106795382792743631, guid: c3d8e9eedefdee249b0a61ea64e80538, type: 3}
 --- !u!114 &978578567593013448
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -168,6 +169,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 595f9172-bd0b-417d-9a6a-a0b1f6997b8d
     m_ActionName: Game/PointTarget[/Mouse/leftButton]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 978578567593013448}
+        m_TargetAssemblyTypeName: TMPTesting.GrayboxLevel, Assembly-CSharp
+        m_MethodName: HandleCreateDummyTarget
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: f9c198f6-d594-4948-b549-30b0d5a962d5
+    m_ActionName: Game/SpawnDummyTarget[/Keyboard/s]
   m_NeverAutoSwitchControlSchemes: 1
   m_DefaultControlScheme: Keyboard&Mouse
   m_DefaultActionMap: Game

@@ -3,7 +3,6 @@ using Config;
 using MVPPassiveView.Models.Guns;
 using MVPPassiveView.Models.Projectiles;
 using MVPPassiveView.Models.ProjectileTargets;
-using MVPPassiveView.Presenters;
 using MVPPassiveView.Views;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -31,6 +30,20 @@ namespace TMPTesting
             if(!callbackContext.performed) return;
             
             CreateGunInRandomPosition();
+        }
+
+        public void HandleCreateDummyTarget(InputAction.CallbackContext callbackContext)
+        {
+            if(!callbackContext.performed) return;
+            
+            CreateDummyTargetInRandomPosition();
+        }
+
+        private void CreateDummyTargetInRandomPosition()
+        {
+            Vector3 targetPosition = new Vector3(Random.Range(10f, 20f), 1, Random.Range(-10f, 10f));
+            DummyTarget model = new DummyTarget(targetPosition);
+            _composeFactory.CreateDummyTargetCompose(model);
         }
         
         private void CreateGunInRandomPosition()

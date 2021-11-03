@@ -7,19 +7,20 @@ namespace TMPTesting
 {
     [DisallowMultipleComponent]
     [RequireComponent(typeof(DummyTargetView))]
-    public class DummyTarget : MonoBehaviour, IProjectileTargetSource
+    public class DummyTargetCompose : MonoBehaviour, IProjectileTargetSource
     {
-        private MVPPassiveView.Models.ProjectileTargets.DummyTarget _model;
+        private DummyTarget _model;
         private DummyTargetView _view;
         private DummyTargetPresenter _presenter;
 
         public IProjectileTarget Target => _model;
 
-        private void Awake()
+        public void Init(DummyTarget model)
         {
-            _view = GetComponent<DummyTargetView>();
-            _model = new MVPPassiveView.Models.ProjectileTargets.DummyTarget(transform.position);
+            _model = model;
             _presenter = new DummyTargetPresenter(_model, _view);
         }
+        
+        private void Awake() => _view = GetComponent<DummyTargetView>();
     }
 }

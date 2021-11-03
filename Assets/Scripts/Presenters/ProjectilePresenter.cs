@@ -18,9 +18,8 @@ namespace Presenters
             
             _view = view;
 
-            _view.UpdateHappened += OnViewUpdateHappened;
-
             _view.Position = model.Position;
+            _view.UpdateHappened += OnViewUpdateHappened;
         }
 
         private void OnPositionChanged(Vector3 position) => _view.Position = position;

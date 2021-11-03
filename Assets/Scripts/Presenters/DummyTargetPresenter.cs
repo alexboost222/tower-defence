@@ -1,4 +1,4 @@
-using Models;
+using Models.ProjectileTargets;
 using Views;
 
 namespace Presenters

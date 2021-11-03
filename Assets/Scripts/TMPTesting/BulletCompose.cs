@@ -1,4 +1,3 @@
-using Models;
 using Models.Projectiles;
 using Presenters;
 using UnityEngine;
@@ -8,24 +7,22 @@ namespace TMPTesting
 {
     [DisallowMultipleComponent]
     [RequireComponent(typeof(ProjectileView))]
-    public class Bullet : MonoBehaviour
+    public class BulletCompose : MonoBehaviour
     {
-        [SerializeField] private float velocity;
-        
         private ProjectileBase _model;
-        private ProjectileView _view;
         private ProjectilePresenter _presenter;
+        private ProjectileView _view;
 
-        private bool _init;
+        private bool _isInit;
 
-        public void Init(IProjectileTarget target)
+        public void Init(ProjectileBase model)
         {
-            if (_init) return;
-            
-            _model = new LinearProjectile(target, velocity, _view.Position);
+            if (_isInit) return;
+
+            _model = model;
             _presenter = new ProjectilePresenter(_model, _view);
-            
-            _init = true;
+
+            _isInit = true;
         }
         
         private void Awake() => _view = GetComponent<ProjectileView>();

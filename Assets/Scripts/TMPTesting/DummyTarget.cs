@@ -1,4 +1,5 @@
 using Models;
+using Models.ProjectileTargets;
 using Presenters;
 using UnityEngine;
 using Views;
@@ -9,7 +10,7 @@ namespace TMPTesting
     [RequireComponent(typeof(DummyTargetView))]
     public class DummyTarget : MonoBehaviour
     {
-        private Models.DummyTarget _model;
+        private Models.ProjectileTargets.DummyTarget _model;
         private DummyTargetView _view;
         private DummyTargetPresenter _presenter;
 
@@ -18,7 +19,7 @@ namespace TMPTesting
         private void Awake()
         {
             _view = GetComponent<DummyTargetView>();
-            _model = new Models.DummyTarget(_view.Position);
+            _model = new Models.ProjectileTargets.DummyTarget(transform.position);
             _presenter = new DummyTargetPresenter(_model, _view);
         }
     }

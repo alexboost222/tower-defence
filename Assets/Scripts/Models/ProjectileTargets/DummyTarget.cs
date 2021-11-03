@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Models
+namespace Models.ProjectileTargets
 {
     public class DummyTarget : IProjectileTarget
     {

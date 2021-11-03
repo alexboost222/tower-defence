@@ -1,3 +1,4 @@
+using Models.ProjectileTargets;
 using UnityEngine;
 
 namespace Models.Projectiles

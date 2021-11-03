@@ -1,9 +1,9 @@
 using System;
-using Models.Projectiles;
-using Models.ProjectileTargets;
+using MVPPassiveView.Models.Projectiles;
+using MVPPassiveView.Models.ProjectileTargets;
 using UnityEngine;
 
-namespace Models.Guns
+namespace MVPPassiveView.Models.Guns
 {
     public class GunsFactory
     {

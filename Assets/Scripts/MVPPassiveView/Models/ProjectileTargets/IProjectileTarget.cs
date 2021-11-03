@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Models.ProjectileTargets
+namespace MVPPassiveView.Models.ProjectileTargets
 {
     public interface IProjectileTarget
     {

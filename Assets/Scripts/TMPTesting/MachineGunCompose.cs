@@ -1,9 +1,9 @@
 using System;
-using Models.Guns;
-using Models.Projectiles;
-using Presenters;
+using MVPPassiveView.Models.Guns;
+using MVPPassiveView.Models.Projectiles;
+using MVPPassiveView.Presenters;
+using MVPPassiveView.Views;
 using UnityEngine;
-using Views;
 
 namespace TMPTesting
 {
@@ -16,6 +16,8 @@ namespace TMPTesting
         private GunView _view;
 
         private bool _isInit;
+
+        public GunView View => _view;
 
         public void Init(Gun model, Action<ProjectileBase> shotFiredHandler)
         {

@@ -1,7 +1,8 @@
 using System;
-using Models.Guns;
-using Models.Projectiles;
-using Models.ProjectileTargets;
+using MVPPassiveView.Models.Guns;
+using MVPPassiveView.Models.Projectiles;
+using MVPPassiveView.Presenters;
+using MVPPassiveView.Views;
 using UnityEngine;
 
 namespace TMPTesting
@@ -19,10 +20,11 @@ namespace TMPTesting
             bulletCompose.Init(model);
         }
 
-        public void CreateMachineGunCompose(Gun model, Action<ProjectileBase> shotFiredHandler)
+        public GunView CreateMachineGunCompose(Gun model, Action<ProjectileBase> shotFiredHandler)
         {
             MachineGunCompose machineGunCompose = Instantiate(machineGunComposeTemplate);
             machineGunCompose.Init(model, shotFiredHandler);
+            return machineGunCompose.View;
         }
     }
 }

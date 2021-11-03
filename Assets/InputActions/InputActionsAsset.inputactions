@@ -20,6 +20,22 @@
                     "expectedControlType": "Axis",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "MovePointer",
+                    "type": "Value",
+                    "id": "2de60361-74b9-4185-a70a-77ccc0492f34",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "AttemptPoint",
+                    "type": "Button",
+                    "id": "595f9172-bd0b-417d-9a6a-a0b1f6997b8d",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -66,6 +82,28 @@
                     "action": "RotateCamera",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "5320ea8c-b22a-4b7a-8020-bdbe4e999d85",
+                    "path": "<Mouse>/position",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MovePointer",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "689b7f45-7f4b-46f9-8e45-9a2912f89e32",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "AttemptPoint",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }

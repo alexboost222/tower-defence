@@ -1,4 +1,4 @@
-namespace Models.Projectiles
+namespace MVPPassiveView.Models.Projectiles
 {
     public interface IProjectilesFactoryConfig
     {

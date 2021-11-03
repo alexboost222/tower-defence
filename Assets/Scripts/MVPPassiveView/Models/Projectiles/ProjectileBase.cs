@@ -1,10 +1,10 @@
 using System;
-using Models.ProjectileTargets;
+using MVPPassiveView.Models.ProjectileTargets;
 using UnityEngine;
 
-namespace Models.Projectiles
+namespace MVPPassiveView.Models.Projectiles
 {
-    public abstract class ProjectileBase
+    public abstract class ProjectileBase : ModelBase
     {
         protected readonly IProjectileTarget Target;
         protected readonly float Velocity;
@@ -33,6 +33,11 @@ namespace Models.Projectiles
             }
         }
 
-        public abstract void UpdatePosition(float deltaTime);
+        public void Update(float deltaTime)
+        {
+            if (!IsDestroyed) UpdateInternal(deltaTime);
+        }
+        
+        protected abstract void UpdateInternal(float deltaTime);
     }
 }

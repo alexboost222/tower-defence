@@ -1,16 +1,15 @@
-using Models;
-using Models.ProjectileTargets;
-using Presenters;
+using MVPPassiveView.Models.ProjectileTargets;
+using MVPPassiveView.Presenters;
+using MVPPassiveView.Views;
 using UnityEngine;
-using Views;
 
 namespace TMPTesting
 {
     [DisallowMultipleComponent]
     [RequireComponent(typeof(DummyTargetView))]
-    public class DummyTarget : MonoBehaviour
+    public class DummyTarget : MonoBehaviour, IProjectileTargetSource
     {
-        private Models.ProjectileTargets.DummyTarget _model;
+        private MVPPassiveView.Models.ProjectileTargets.DummyTarget _model;
         private DummyTargetView _view;
         private DummyTargetPresenter _presenter;
 
@@ -19,7 +18,7 @@ namespace TMPTesting
         private void Awake()
         {
             _view = GetComponent<DummyTargetView>();
-            _model = new Models.ProjectileTargets.DummyTarget(transform.position);
+            _model = new MVPPassiveView.Models.ProjectileTargets.DummyTarget(transform.position);
             _presenter = new DummyTargetPresenter(_model, _view);
         }
     }

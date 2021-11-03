@@ -1,4 +1,4 @@
-namespace Models.Guns
+namespace MVPPassiveView.Models.Guns
 {
     public interface IGunsFactoryConfig
     {

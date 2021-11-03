@@ -1,4 +1,4 @@
-using Models.Projectiles;
+using MVPPassiveView.Models.Projectiles;
 using UnityEngine;
 
 namespace Config

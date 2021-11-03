@@ -1,18 +1,18 @@
 using System;
-using Models.Guns;
-using Models.Projectiles;
-using Models.ProjectileTargets;
-using Views;
+using MVPPassiveView.Models.Guns;
+using MVPPassiveView.Models.Projectiles;
+using MVPPassiveView.Models.ProjectileTargets;
+using MVPPassiveView.Views;
 
-namespace Presenters
+namespace MVPPassiveView.Presenters
 {
-    public class GunPresenter
+    public class GunPresenter : PresenterBase
     {
         private readonly Gun _model;
         private readonly GunView _view;
         private readonly Action<ProjectileBase> _shotFiredHandler;
 
-        public GunPresenter(Gun model, GunView view, Action<ProjectileBase> shotFiredHandler)
+        public GunPresenter(Gun model, GunView view, Action<ProjectileBase> shotFiredHandler) : base(model, view)
         {
             _model = model;
             _view = view;

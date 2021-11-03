@@ -1,8 +1,8 @@
 using UnityEngine;
 
-namespace Models.ProjectileTargets
+namespace MVPPassiveView.Models.ProjectileTargets
 {
-    public class DummyTarget : IProjectileTarget
+    public class DummyTarget : ModelBase, IProjectileTarget
     {
         public DummyTarget(Vector3 position) => Position = position;
         

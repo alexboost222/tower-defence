@@ -1,15 +1,15 @@
-using Models.Projectiles;
+using MVPPassiveView.Models.Projectiles;
+using MVPPassiveView.Views;
 using UnityEngine;
-using Views;
 
-namespace Presenters
+namespace MVPPassiveView.Presenters
 {
-    public class ProjectilePresenter
+    public class ProjectilePresenter: PresenterBase
     {
         private readonly ProjectileBase _model;
         private readonly ProjectileView _view;
 
-        public ProjectilePresenter(ProjectileBase model, ProjectileView view)
+        public ProjectilePresenter(ProjectileBase model, ProjectileView view) : base(model, view)
         {
             _model = model;
 
@@ -24,8 +24,12 @@ namespace Presenters
 
         private void OnPositionChanged(Vector3 position) => _view.Position = position;
 
-        private void OnReachedTarget() => _view.HandleReachedTarget();
+        private void OnReachedTarget()
+        {
+            _view.HandleReachedTarget();
+            _model.Destroy();
+        }
 
-        private void OnViewUpdateHappened(float deltaTime) => _model.UpdatePosition(deltaTime);
+        private void OnViewUpdateHappened(float deltaTime) => _model.Update(deltaTime);
     }
 }

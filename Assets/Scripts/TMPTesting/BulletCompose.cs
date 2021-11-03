@@ -1,7 +1,7 @@
-using Models.Projectiles;
-using Presenters;
+using MVPPassiveView.Models.Projectiles;
+using MVPPassiveView.Presenters;
+using MVPPassiveView.Views;
 using UnityEngine;
-using Views;
 
 namespace TMPTesting
 {

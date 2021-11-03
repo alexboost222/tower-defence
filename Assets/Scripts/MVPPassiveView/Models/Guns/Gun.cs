@@ -1,11 +1,11 @@
 using System;
-using Models.Projectiles;
-using Models.ProjectileTargets;
+using MVPPassiveView.Models.Projectiles;
+using MVPPassiveView.Models.ProjectileTargets;
 using UnityEngine;
 
-namespace Models.Guns
+namespace MVPPassiveView.Models.Guns
 {
-    public class Gun
+    public class Gun : ModelBase
     {
         public event Action<ProjectileBase> ShotFired;
 
@@ -29,16 +29,23 @@ namespace Models.Guns
 
         public void Update(float deltaTime)
         {
+            if (!IsDestroyed) UpdateInternal(deltaTime);
+        }
+
+        private void UpdateInternal(float deltaTime)
+        {
             _timeToNextShot -= deltaTime;
 
             if (CheckIfReadyToShoot()) Shoot();
         }
 
-        private bool CheckIfReadyToShoot() => _timeToNextShot <= 0 && Target != null &&
+        private bool CheckIfReadyToShoot() => !IsDestroyed && _timeToNextShot <= 0 && Target != null &&
                                               Vector3.Distance(Position, Target.Position) <= FireRange;
 
         private void Shoot()
         {
+            if (IsDestroyed) return;
+            
             ShotFired?.Invoke(_projectileGenerator(Target, Position));
             _timeToNextShot = FireDelay;
         }

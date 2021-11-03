@@ -1,4 +1,4 @@
-using Models.Guns;
+using MVPPassiveView.Models.Guns;
 using UnityEngine;
 
 namespace Config

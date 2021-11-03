@@ -1,7 +1,7 @@
-using Models.ProjectileTargets;
+using MVPPassiveView.Models.ProjectileTargets;
 using UnityEngine;
 
-namespace Models.Projectiles
+namespace MVPPassiveView.Models.Projectiles
 {
     public class LinearProjectile : ProjectileBase
     {
@@ -9,7 +9,7 @@ namespace Models.Projectiles
         {
         }
 
-        public override void UpdatePosition(float deltaTime)
+        protected override void UpdateInternal(float deltaTime)
         {
             float distanceToTarget = Vector3.Distance(Position, Target.Position);
 
@@ -21,7 +21,7 @@ namespace Models.Projectiles
                 return;
             }
 
-            Position += (Target.Position - Position).normalized * Velocity;
+            Position += (Target.Position - Position).normalized * distanceDuringUpdate;
         }
     }
 }

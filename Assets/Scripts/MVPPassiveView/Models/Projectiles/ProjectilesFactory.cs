@@ -1,7 +1,7 @@
-using Models.ProjectileTargets;
+using MVPPassiveView.Models.ProjectileTargets;
 using UnityEngine;
 
-namespace Models.Projectiles
+namespace MVPPassiveView.Models.Projectiles
 {
     public class ProjectilesFactory
     {

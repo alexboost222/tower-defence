@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using Helpers;
 using UnityEngine;
 
 namespace HexGrid
@@ -18,13 +17,25 @@ namespace HexGrid
 
         private HashSet<Hex> _map = new HashSet<Hex>();
 
+        private static readonly Dictionary<int, Vector2> UVTemplate = new Dictionary<int, Vector2>
+        {
+            {0, new Vector2(0.50f, 0.50f)},
+            {1, new Vector2(1.00f, 0.50f)},
+            {2, new Vector2(0.75f, 0.00f)},
+            {3, new Vector2(0.25f, 0.00f)},
+            {4, new Vector2(0.00f, 0.50f)},
+            {5, new Vector2(0.25f, 1.00f)},
+            {6, new Vector2(0.75f, 1.00f)}
+        };
+
         public float HexSize => hexSize;
 
-        public (IReadOnlyCollection<Vector3> vertices, IReadOnlyCollection<int>triangles, IReadOnlyCollection<Vector3> normals) GetMeshData()
+        public MeshData GetMeshData()
         {
             Vector3[] vertices = new Vector3[_map.Count * 7];
             int[] triangles = new int[_map.Count * 18];
-            Vector3[] normals = new Vector3[_map.Count * 7];
+            Vector3[] normals = new Vector3[vertices.Length];
+            Vector2[] uv = new Vector2[vertices.Length];
 
             for(int normalIndex = 0; normalIndex < normals.Length; ++normalIndex)
                 normals[normalIndex] = Vector3.up;
@@ -40,9 +51,14 @@ namespace HexGrid
                 float yCenter = HexSize * (sqrtThree * 0.5f * hex.Q + sqrtThree * hex.R);
 
                 vertices[verticesCounter] = new Vector3(xCenter, 0, yCenter);
+                uv[verticesCounter] = UVTemplate[verticesCounter % 7];
 
                 for (int cornerNumber = 0; cornerNumber < 6; ++cornerNumber)
-                    vertices[verticesCounter + cornerNumber + 1] = GetCorner(xCenter, yCenter, HexSize, cornerNumber);
+                {
+                    int vertexNumber = verticesCounter + cornerNumber + 1;
+                    vertices[vertexNumber] = GetCorner(xCenter, yCenter, HexSize, cornerNumber);
+                    uv[vertexNumber] = UVTemplate[vertexNumber % 7];
+                }
 
                 for (int triangleNumber = 0; triangleNumber < 5; ++triangleNumber)
                 {
@@ -58,7 +74,7 @@ namespace HexGrid
                 verticesCounter += 7;
             }
 
-            return (vertices, triangles, normals);
+            return new MeshData(vertices, triangles, normals, uv);
 
             static Vector3 GetCorner(float xCenter, float yCenter, float size, int cornerNumber)
             {

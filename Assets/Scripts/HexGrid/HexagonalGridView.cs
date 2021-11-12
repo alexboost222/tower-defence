@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 namespace HexGrid
@@ -26,21 +24,19 @@ namespace HexGrid
 
         private void OnDestroy() => _model.MapChanged -= OnModelMapChanged;
 
-        private void OnModelMapChanged() => ApplyMesh(_model.GetMeshData());
+        private void OnModelMapChanged() => ApplyMeshData(_model.GetMeshData());
 
-        private void ApplyMesh(
-            (IReadOnlyCollection<Vector3> vertices, IReadOnlyCollection<int>triangles, IReadOnlyCollection<Vector3>
-                normals) meshData)
+        private void ApplyMeshData(MeshData meshData)
         {
             if (_meshFilter.mesh == null) _meshFilter.mesh = new Mesh();
             else _meshFilter.mesh.Clear();
 
-            (IReadOnlyCollection<Vector3> vertices, IReadOnlyCollection<int> triangles,
-                IReadOnlyCollection<Vector3> normals) = meshData;
-
-            _meshFilter.mesh.vertices = vertices.ToArray();
-            _meshFilter.mesh.triangles = triangles.ToArray();
-            _meshFilter.mesh.normals = normals.ToArray();
+            Mesh mesh = _meshFilter.mesh;
+            
+            mesh.vertices = meshData.Vertices;
+            mesh.triangles = meshData.Triangles;
+            mesh.normals = meshData.Normals;
+            mesh.uv = meshData.UV;
         }
     }
 }

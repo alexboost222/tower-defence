@@ -1,35 +1,46 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace HexGrid
 {
     [DisallowMultipleComponent]
-    [RequireComponent(typeof(MeshRenderer))]
+    [RequireComponent(typeof(MeshFilter))]
+    [RequireComponent(typeof(HexagonalGrid))]
     public class HexagonalGridView : MonoBehaviour
     {
-        [SerializeField] private HexagonalGrid model;
-        
-        private MeshRenderer _meshRenderer;
+        private MeshFilter _meshFilter;
+
+        private HexagonalGrid _model;
 
         private void Awake()
         {
-            _meshRenderer = GetComponent<MeshRenderer>();
-            
-            OnModelMapChanged(model.Map);
-            
-            model.MapChanged += OnModelMapChanged;
+            _meshFilter = GetComponent<MeshFilter>();
+
+            _model = GetComponent<HexagonalGrid>();
+
+            OnModelMapChanged();
+
+            _model.MapChanged += OnModelMapChanged;
         }
 
-        private void OnDestroy() => model.MapChanged -= OnModelMapChanged;
+        private void OnDestroy() => _model.MapChanged -= OnModelMapChanged;
 
-        private void OnModelMapChanged(IReadOnlyCollection<Hex> newMap)
+        private void OnModelMapChanged() => ApplyMesh(_model.GetMeshData());
+
+        private void ApplyMesh(
+            (IReadOnlyCollection<Vector3> vertices, IReadOnlyCollection<int>triangles, IReadOnlyCollection<Vector3>
+                normals) meshData)
         {
-            List<Vector3> vertices = new List<Vector3>();
+            if (_meshFilter.mesh == null) _meshFilter.mesh = new Mesh();
+            else _meshFilter.mesh.Clear();
 
-            foreach (Hex hex in newMap)
-            {
-                
-            }
+            (IReadOnlyCollection<Vector3> vertices, IReadOnlyCollection<int> triangles,
+                IReadOnlyCollection<Vector3> normals) = meshData;
+
+            _meshFilter.mesh.vertices = vertices.ToArray();
+            _meshFilter.mesh.triangles = triangles.ToArray();
+            _meshFilter.mesh.normals = normals.ToArray();
         }
     }
 }

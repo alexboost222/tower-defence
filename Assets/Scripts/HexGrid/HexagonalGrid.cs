@@ -8,54 +8,87 @@ namespace HexGrid
     [DisallowMultipleComponent]
     public class HexagonalGrid : MonoBehaviour
     {
-        public event Action<IReadOnlyCollection<Hex>> MapChanged;
-        
-        [SerializeField] [OnEditorChangedCall("OnEditorRadiusChanged")]
+        public event Action MapChanged;
+
+        [SerializeField]
         private int radius;
 
-        [SerializeField] [OnEditorChangedCall("OnEditorHexSizeChanged")]
+        [SerializeField]
         private float hexSize;
 
         private HashSet<Hex> _map = new HashSet<Hex>();
 
-        public int Radius
+        public float HexSize => hexSize;
+
+        public (IReadOnlyCollection<Vector3> vertices, IReadOnlyCollection<int>triangles, IReadOnlyCollection<Vector3> normals) GetMeshData()
         {
-            get => radius;
-            set
+            Vector3[] vertices = new Vector3[_map.Count * 7];
+            int[] triangles = new int[_map.Count * 18];
+            Vector3[] normals = new Vector3[_map.Count * 7];
+
+            for(int normalIndex = 0; normalIndex < normals.Length; ++normalIndex)
+                normals[normalIndex] = Vector3.up;
+
+            float sqrtThree = Mathf.Sqrt(3);
+
+            int verticesCounter = 0;
+            int trianglesCounter = 0;
+
+            foreach (Hex hex in _map)
             {
-                if (radius == value) return;
+                float xCenter = HexSize * (1.5f * hex.Q);
+                float yCenter = HexSize * (sqrtThree * 0.5f * hex.Q + sqrtThree * hex.R);
+
+                vertices[verticesCounter] = new Vector3(xCenter, 0, yCenter);
+
+                for (int cornerNumber = 0; cornerNumber < 6; ++cornerNumber)
+                    vertices[verticesCounter + cornerNumber + 1] = GetCorner(xCenter, yCenter, HexSize, cornerNumber);
+
+                for (int triangleNumber = 0; triangleNumber < 5; ++triangleNumber)
+                {
+                    triangles[trianglesCounter++] = verticesCounter;
+                    triangles[trianglesCounter++] = verticesCounter + 2 + triangleNumber;
+                    triangles[trianglesCounter++] = verticesCounter + 1 + triangleNumber;
+                }
                 
-                radius = value;
-                _map = GenerateMap(radius);
-                MapChanged?.Invoke(_map);
+                triangles[trianglesCounter++] = verticesCounter;
+                triangles[trianglesCounter++] = verticesCounter + 1;
+                triangles[trianglesCounter++] = verticesCounter + 6;
+
+                verticesCounter += 7;
+            }
+
+            return (vertices, triangles, normals);
+
+            static Vector3 GetCorner(float xCenter, float yCenter, float size, int cornerNumber)
+            {
+                int angleInDegrees = 60 * cornerNumber;
+                float angleInRadians = Mathf.PI / 180 * angleInDegrees;
+                return new Vector3(xCenter + size * Mathf.Cos(angleInRadians), 0, yCenter + size * Mathf.Sin(angleInRadians));
             }
         }
-        
-        public float HexSize
+
+        private void Awake() => GenerateNewMap();
+
+        private void HandleRadiusUpdate() => GenerateNewMap();
+
+        private void GenerateNewMap()
         {
-            get => hexSize;
-            set => hexSize = value;
+            _map = GenerateMap(radius);
+            MapChanged?.Invoke();
         }
-
-        public Vector3 Position => transform.position;
-
-        public Quaternion Rotation => transform.rotation;
-
-        public IReadOnlyCollection<Hex> Map => _map;
-
-        private void OnEditorRadiusChanged() => Radius = radius;
-
-        private void OnEditorHexSizeChanged() => HexSize = hexSize;
 
         private static HashSet<Hex> GenerateMap(int mapRadius)
         {
             HashSet<Hex> map = new HashSet<Hex>();
 
-            for (int q = -mapRadius; q <= mapRadius; q++)
+            int internalMapRadius = mapRadius - 1;
+
+            for (int q = -internalMapRadius; q <= internalMapRadius; q++)
             {
-                int r1 = Math.Max(-mapRadius, -q - mapRadius);
-                int r2 = Math.Min(mapRadius, -q + mapRadius);
-                
+                int r1 = Math.Max(-internalMapRadius, -q - internalMapRadius);
+                int r2 = Math.Min(internalMapRadius, -q + internalMapRadius);
+
                 for (int r = r1; r <= r2; r++) map.Add(new Hex(q, r));
             }
 

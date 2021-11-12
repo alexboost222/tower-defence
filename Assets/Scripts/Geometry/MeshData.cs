@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace HexGrid
+namespace Geometry
 {
     public readonly struct MeshData
     {

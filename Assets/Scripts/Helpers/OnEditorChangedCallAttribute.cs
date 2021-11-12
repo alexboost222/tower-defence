@@ -21,7 +21,7 @@ namespace Helpers
         {
             EditorGUI.BeginChangeCheck();
 
-            EditorGUI.PropertyField(position, property);
+            EditorGUI.PropertyField(position, property, label);
 
             if (!EditorGUI.EndChangeCheck()) return;
 
@@ -29,6 +29,11 @@ namespace Helpers
 
             MethodInfo method = property.serializedObject.targetObject.GetType().GetMethods()
                 .FirstOrDefault(m => m.Name == at.MethodName);
+
+            if (method == null)
+                method = property.serializedObject.targetObject.GetType()
+                    .GetMethods(BindingFlags.NonPublic | BindingFlags.Instance)
+                    .FirstOrDefault(m => m.Name == at.MethodName);
 
             // Only invoke methods with zero parameters
             if (method != null && !method.GetParameters().Any())

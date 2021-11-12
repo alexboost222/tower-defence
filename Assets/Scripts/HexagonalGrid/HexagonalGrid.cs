@@ -1,37 +1,68 @@
 using System;
 using System.Collections.Generic;
-using HexagonalGrid.TMP;
-using UnityEngine;
+using HexagonalGrid.GridHexagon;
 
 namespace HexagonalGrid
 {
-    [DisallowMultipleComponent]
-    public class HexagonalGrid : MonoBehaviour
+    public class HexagonalGrid
     {
-        [SerializeField] private int radius;
+        private readonly List<GridHexagonController> _map = new List<GridHexagonController>();
+        
+        private int _radius;
+        
+        private float _hexagonSize;
 
-        [SerializeField] private float hexagonSize;
+        public int Radius
+        {
+            get => _radius;
+            set
+            {
+                if (_radius == value) return;
 
-        [SerializeField] private HexagonInSpaceView viewTemplate;
+                _radius = value;
+                GenerateNewMap();
+            }
+        }
 
-        private readonly List<HexagonInSpaceController> _map = new List<HexagonInSpaceController>();
+        public float HexagonSize
+        {
+            get => _hexagonSize;
+            set
+            {
+                if (_hexagonSize == value) return;
 
-        private void Awake() => GenerateNewMap();
+                _hexagonSize = value;
+                GenerateNewMap();
+            }
+        }
+
+        public void ApplyGlobalState(GridHexagon.GridHexagon.GridHexagonState state)
+        {
+            foreach (GridHexagonController gridHexagonController in _map)
+            {
+                gridHexagonController.ApplyState(state);
+            }
+        }
 
         private void GenerateNewMap()
         {
-            foreach (HexagonInSpaceController controller in _map) controller.Destroy();
-            
-            _map.Clear();
-            
+            ClearMap();
+
             _map.AddRange(GenerateMap());
         }
 
-        private IEnumerable<HexagonInSpaceController> GenerateMap()
+        private void ClearMap()
         {
-            List<HexagonInSpaceController> map = new List<HexagonInSpaceController>();
+            foreach (GridHexagonController controller in _map) controller.Destroy();
 
-            int internalMapRadius = radius- 1;
+            _map.Clear();
+        }
+
+        private IEnumerable<GridHexagonController> GenerateMap()
+        {
+            List<GridHexagonController> map = new List<GridHexagonController>();
+
+            int internalMapRadius = _radius - 1;
 
             for (int q = -internalMapRadius; q <= internalMapRadius; q++)
             {
@@ -40,9 +71,8 @@ namespace HexagonalGrid
 
                 for (int r = r1; r <= r2; r++)
                 {
-                    HexagonInSpace model = new HexagonInSpace(q, r, hexagonSize);
-                    HexagonInSpaceView view = Instantiate(viewTemplate, transform);
-                    map.Add(new HexagonInSpaceController(model, view));
+                    map.Add(GridHexagonFactory.Instance.Create(q, r, _hexagonSize,
+                        GridHexagon.GridHexagon.GridHexagonState.Default));
                 }
             }
 

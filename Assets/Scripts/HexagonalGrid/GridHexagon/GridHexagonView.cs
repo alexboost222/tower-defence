@@ -1,14 +1,19 @@
 using Geometry;
 using UnityEngine;
 
-namespace HexagonalGrid
+namespace HexagonalGrid.GridHexagon
 {
+    [DisallowMultipleComponent]
     [RequireComponent(typeof(MeshFilter))]
     [RequireComponent(typeof(MeshRenderer))]
-    [DisallowMultipleComponent]
-    public class HexagonInSpaceView : MonoBehaviour
+    public class GridHexagonView : MonoBehaviour
     {
+        [SerializeField] private Material defaultMaterial;
+        
+        [SerializeField] private Material highlightedMaterial;
+        
         private MeshFilter _meshFilter;
+        private MeshRenderer _meshRenderer;
         
         public Vector3 LocalPosition
         {
@@ -30,6 +35,14 @@ namespace HexagonalGrid
 
         public void Destroy() => Destroy(gameObject);
 
-        private void Awake() => _meshFilter = GetComponent<MeshFilter>();
+        public void ApplyDefaultState() => _meshRenderer.material = defaultMaterial;
+
+        public void ApplyHighlightedState() => _meshRenderer.material = highlightedMaterial;
+
+        private void Awake()
+        {
+            _meshFilter = GetComponent<MeshFilter>();
+            _meshRenderer = GetComponent<MeshRenderer>();
+        }
     }
 }
